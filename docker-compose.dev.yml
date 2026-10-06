@@ -1,0 +1,64 @@
+# AnchorBoard-SaaS — Dev compose (frontend + infra only, no Java builds)
+# Java microservices build takes 10+ minutes; frontend works fully with mock data.
+# Run: docker compose -f docker-compose.dev.yml up -d
+
+name: anchorboard-saas
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: anchorboard-postgres
+    environment:
+      POSTGRES_DB: anchorboard_platform
+      POSTGRES_USER: anchorboard_user
+      POSTGRES_PASSWORD: anchorboard_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - anchorboard-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anchorboard_user -d anchorboard_platform"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: anchorboard-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - anchorboard-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: anchorboard-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+      NEXT_TELEMETRY_DISABLED: "1"
+    ports:
+      - "3000:3000"
+    networks:
+      - anchorboard-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  anchorboard-network:
+    driver: bridge
