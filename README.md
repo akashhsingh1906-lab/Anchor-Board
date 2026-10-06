@@ -157,8 +157,5 @@ All project-service and notification-service requests require an `Authorization:
 - **Flyway is present as a dependency but disabled** (`spring.flyway.enabled: false`); schema is managed by Hibernate's `ddl-auto: update` instead.
 
 ## Author
-**Rayen Lassoued**
-[github.com/Hamilas](https://github.com/Hamilas) | [LinkedIn](https://www.linkedin.com/in/lassoued-rayen/)
-
-## License
-MIT
+**Akash Singh**
+[github.com](https://github.com/akashhsingh1906-lab?tab=repositories) | [LinkedIn](https://www.linkedin.com/in/akash-singh-925446418/)
