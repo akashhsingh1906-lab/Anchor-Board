@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   # PostgreSQL Database
-  postgres:
+  postgres: 
     image: postgres:15-alpine
     container_name: anchorboard-postgres
     environment:
