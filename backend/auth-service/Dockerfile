@@ -11,7 +11,7 @@ COPY common-lib/pom.xml ./common-lib/
 # Copy common-lib source first
 COPY common-lib/src ./common-lib/src
 
-# Install minimal parent POM and build common-lib
+# Install minimal parent POM and build common-lib 
 RUN mvn clean install -DskipTests
 
 # Download service dependencies
